@@ -182,7 +182,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       ),
                       Text(
-                        widget.weight.toString(),
+                        '${widget.weight.toInt()}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 38,
@@ -335,7 +335,7 @@ class _HomeViewState extends State<HomeView> {
               margin: const EdgeInsets.only(top: 10),
               child: const Center(
                 child: Text(
-                  'RE-CALCULATE',
+                  'CALCULATE',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
