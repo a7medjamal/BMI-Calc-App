@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, deprecated_member_use, unused_field
 
+import 'package:bmi_calc_app/model/bmi_model.dart';
 import 'package:bmi_calc_app/results_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,8 @@ class HomeView extends StatefulWidget {
   late String? _gender;
   late Color maleIconColor = Color(0xff4c4f5e).withOpacity(0.3);
   late Color femaleIconColor = Color(0xff4c4f5e).withOpacity(0.3);
-  int height = 180, age = 20, weight = 60;
+  double height = 180, weight = 60;
+  int age = 20;
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -128,7 +130,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   Text(
-                    '${widget.height.toString()} cm',
+                    '${widget.height.toInt()} cm',
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
                   SliderTheme(
@@ -144,12 +146,12 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                     child: Slider(
-                      value: widget.height.toDouble(),
+                      value: widget.height,
                       min: 120,
                       max: 250,
                       onChanged: (double newValue) {
                         setState(() {
-                          widget.height = newValue.toInt();
+                          widget.height = newValue;
                         });
                       },
                     ),
@@ -309,24 +311,38 @@ class _HomeViewState extends State<HomeView> {
               ),
             ],
           ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
+              BMICalculatorLogic logic = BMICalculatorLogic(
+                height: widget.height,
+                weight: widget.weight,
+              );
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ResultsView()),
+                MaterialPageRoute(
+                  builder:
+                      (_) => ResultsView(
+                        bmiResult: logic.calculateBMI(),
+                        resultText: logic.getResult(),
+                        interpretation: logic.getInterpretation(),
+                      ),
+                ),
               );
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xffeb1555),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+            child: Container(
+              height: 70,
+              color: const Color(0xffeb1555),
+              margin: const EdgeInsets.only(top: 10),
+              child: const Center(
+                child: Text(
+                  'RE-CALCULATE',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-              fixedSize: Size(500, 70),
-            ),
-            child: Text(
-              'Calculate',
-              style: TextStyle(fontSize: 25, color: Colors.white),
             ),
           ),
         ],
