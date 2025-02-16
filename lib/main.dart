@@ -19,6 +19,7 @@ class BMICalcApp extends StatelessWidget {
           titleTextStyle: TextStyle(color: Colors.white),
         ),
       ),
+      debugShowCheckedModeBanner: false,
       home: HomeView(),
     );
   }
